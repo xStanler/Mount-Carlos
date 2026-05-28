@@ -1,3 +1,4 @@
+from engine.map import Map
 import pygame
 
 class Game:
@@ -8,6 +9,8 @@ class Game:
         self.clock = pygame.time.Clock()
         
         self.running = True
+
+        self.map = Map()
     
     def run(self):
         while self.running:
@@ -26,5 +29,6 @@ class Game:
         pass
 
     def render(self):
-        self.screen.fill("purple")
+        self.screen.fill("green")
+        self.map.render()
         pygame.display.flip()
