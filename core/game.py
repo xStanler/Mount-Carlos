@@ -29,6 +29,6 @@ class Game:
         pass
 
     def render(self):
-        self.screen.fill("green")
+        self.screen.fill((133, 198, 105))
         self.map.render()
         pygame.display.flip()
