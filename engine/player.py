@@ -13,7 +13,7 @@ class Player():
     def __init__(self, x: int = 5, y: int = 5):
         self.name = "Stanler"
         self.health = 20
-        self.walking_speed = 3.0
+        self.walking_speed = 1.5 
         self.moves = []
         self.scale = 64
 
@@ -45,5 +45,5 @@ class Player():
         if keys[pygame.K_d] | keys[pygame.K_RIGHT]:
             self.x += self.walking_speed
 
-    def render(self, screen):
-        screen.blit(self.avatar, (self.x, self.y))
+    def render(self, screen, camera):
+        screen.blit(self.avatar, (self.x - camera.x - 32, self.y - camera.y - 32))
