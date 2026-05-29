@@ -1,4 +1,5 @@
 from engine.map import Map, Tiles
+from engine.player import Player
 import pygame
 from pygame.locals import *
 
@@ -14,6 +15,8 @@ class Game:
 
         self.tiles = Tiles()
         self.map = Map(self.tiles)
+
+        self.player = Player()
     
     def run(self):
         while self.running:
@@ -34,10 +37,10 @@ class Game:
             )
 
     def update(self):
-        pass
+        self.player.update()
 
     def render(self):
         self.screen.fill((133, 198, 105))
-        self.map.render()
-        self.screen.blit(self.map.image, self.map.rect)
+        self.map.render(self.screen)
+        self.player.render(self.screen)
         pygame.display.flip()

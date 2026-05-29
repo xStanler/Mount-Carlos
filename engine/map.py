@@ -108,7 +108,7 @@ class Map:
                     self.map[xMap+1, yMap+2] = TileType.TREE
 
 
-    def render(self):
+    def render(self, screen):
         w, h = self.map.shape
 
         for y in range(h):
@@ -143,6 +143,8 @@ class Map:
                 elif tileType == tileType.TREE:
                     tile = self.tiles.get_tiles()["tree"]
                     self.image.blit(tile, (x*i, y*j))
+
+        screen.blit(self.image, (self.rect))
 
 if __name__ == "__main__":
     tiles = Tiles()
