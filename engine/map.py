@@ -84,7 +84,7 @@ class Map:
     def randomize(self):
         x, y = np.random.randint(360, size=2)
         
-        noisePath = Path(__file__).resolve().parent.parent / "assets"
+        noisePath = Path(__file__).resolve().parent.parent / "assets/Maps"
         noiseMap = pygame.image.load(noisePath / "noiseMap2.png").convert_alpha()
 
         rect = pygame.Rect(x, y, 40, 40)
