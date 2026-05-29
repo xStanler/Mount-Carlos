@@ -1,5 +1,6 @@
 from engine.map import Map, Tiles
 from engine.player import Player
+from engine.camera import Camera
 import pygame
 from pygame.locals import *
 
@@ -12,6 +13,8 @@ class Game:
         self.clock = pygame.time.Clock()
         
         self.running = True
+
+        self.camera = Camera()
 
         self.tiles = Tiles()
         self.map = Map(self.tiles)
@@ -38,9 +41,10 @@ class Game:
 
     def update(self):
         self.player.update()
+        self.camera.update(self.player, self.screen)
 
     def render(self):
-        self.screen.fill((133, 198, 105))
-        self.map.render(self.screen)
-        self.player.render(self.screen)
+        self.screen.fill((192, 203, 220))
+        self.map.render(self.screen, self.camera)
+        self.player.render(self.screen, self.camera)
         pygame.display.flip()

@@ -108,13 +108,17 @@ class Map:
                     self.map[xMap+1, yMap+2] = TileType.TREE
 
 
-    def render(self, screen):
+    def render(self, screen, camera):
         w, h = self.map.shape
 
         for y in range(h):
             for x in range(w):
                 tileType = self.map[x, y]
                 tile = self.tiles.get_tiles()["bush"]
+
+                i, j = self.tiles.get_size()
+                screen_x = x*i - camera.x
+                screen_y = y*j - camera.y
 
                 match tileType:
                     case TileType.GRASS | TileType.BUSH | TileType.TREE:
@@ -134,17 +138,21 @@ class Map:
                     case TileType.WALL:
                         tile = self.tiles.get_tiles()["wall"]
 
-                i, j = self.tiles.get_size()
-                self.image.blit(tile, (x*i, y*j))
+                # screen.blit(tile, (x*i, y*j))
+                screen.blit(tile, (screen_x, screen_y))
+                # self.image.blit(tile, (x*i, y*j))
 
                 if tileType == tileType.BUSH:
                     tile = self.tiles.get_tiles()["bush"]
-                    self.image.blit(tile, (x*i, y*j))
+                    # screen.blit(tile, (x*i, y*j))
+                    screen.blit(tile, (screen_x, screen_y))
+                    # self.image.blit(tile, (x*i, y*j))
                 elif tileType == tileType.TREE:
                     tile = self.tiles.get_tiles()["tree"]
-                    self.image.blit(tile, (x*i, y*j))
+                    # screen.blit(tile, (x*i, y*j))
+                    screen.blit(tile, (screen_x, screen_y))
+                    # self.image.blit(tile, (x*i, y*j))
 
-        screen.blit(self.image, (self.rect))
 
 if __name__ == "__main__":
     tiles = Tiles()
