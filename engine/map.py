@@ -117,8 +117,8 @@ class Map:
                 tile = self.tiles.get_tiles()["bush"]
 
                 i, j = self.tiles.get_size()
-                screen_x = x*i - camera.x
-                screen_y = y*j - camera.y
+                screen_x = int(x*i - camera.x)
+                screen_y = int(y*j - camera.y)
 
                 match tileType:
                     case TileType.GRASS | TileType.BUSH | TileType.TREE:

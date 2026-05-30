@@ -9,7 +9,7 @@ class Game:
         pygame.init()
         pygame.display.set_caption("Mount Carlos")
 
-        self.screen = pygame.display.set_mode((640, 640), pygame.RESIZABLE | pygame.SCALED)
+        self.screen = pygame.display.set_mode((640, 640), pygame.RESIZABLE | pygame.SCALED, vsync=1)
         self.clock = pygame.time.Clock()
         
         self.running = True
@@ -26,6 +26,8 @@ class Game:
             self.handle_events()
             self.update()
             self.render()
+
+            self.clock.tick(60)
 
         pygame.quit()
 
