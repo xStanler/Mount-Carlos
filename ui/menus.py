@@ -1,5 +1,5 @@
 import pygame
-import sys
+from pathlib import Path
 
 class Button:
     def __init__(self, text, x, y, width, height, base_color, hover_color, font):
@@ -30,16 +30,17 @@ class MainMenu():
         self.screen_width = screen_width
         self.screen_height = screen_height
 
-        self.title_font = pygame.font.SysFont("Arial", 50, bold=True)
-        self.button_font = pygame.font.SysFont("arial", 20)
+        font_path = Path(__file__).parent.parent / "assets/VT323-Regular.ttf"
+        self.title_font = pygame.font.Font(str(font_path), 72)
+        self.button_font = pygame.font.Font(str(font_path), 32)
 
         btn_w, btn_h = 240, 50
         btn_x = (screen_width // 2) - (btn_w // 2)
 
-        self.start_button = Button("ROZPOCZNIJ GRĘ", btn_x, 250, btn_w, btn_h, (40, 50, 70), (60, 80, 110), self.button_font)
-        self.quit_button = Button("WYJDŹ", btn_x, 330, btn_w, btn_h, (40, 50, 70), (150, 50, 50), self.button_font)
+        self.start_button = Button("ROZPOCZNIJ GRĘ", btn_x, 250, btn_w, btn_h, (60, 83, 60), (51, 71, 51), self.button_font)
+        self.quit_button = Button("WYJDŹ", btn_x, 330, btn_w, btn_h, (60, 82, 60), (51, 71, 51), self.button_font)
 
-        self.title_surf = self.title_font.render("MOUNT CARLOS", True, (255, 215, 0))
+        self.title_surf = self.title_font.render("MOUNT CARLOS", True, (193, 140, 93))
         self.title_rect = self.title_surf.get_rect(center=(screen_width // 2, 120))
 
     def update(self, mouse_pos, mouse_clicked):
@@ -54,7 +55,8 @@ class MainMenu():
         return "NONE"
 
     def render(self, screen):
-        screen.fill((20, 20, 30))
+        # screen.fill((73, 88, 103))
+        screen.fill((102, 122, 143))
 
         screen.blit(self.title_surf, self.title_rect)
         self.start_button.draw(screen)

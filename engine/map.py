@@ -144,6 +144,15 @@ class Map:
             return tile_type
 
         return None
+    
+    def player_starting_pos(self):
+        for dy in range(17, 27):
+            for dx in range(16, 26):
+                print(self.map[dx, dy])
+                if (self.map[dx, dy] == TileType.GRASS or self.map[dx, dy] == TileType.BUSH) and (self.map[dx, dy-1] == TileType.GRASS or self.map[dx, dy-1] == TileType.BUSH):
+                    return dx, dy
+
+        return 0, 0
 
     def render(self, screen, camera):
         w, h = self.map.shape

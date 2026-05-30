@@ -1,6 +1,7 @@
 from engine.map import TileType
 import pygame
 from pathlib import Path
+import numpy as np
 
 #Move class
 class Move():
@@ -59,7 +60,7 @@ class CharacterSprites:
 
 #NOTE: Player() class
 class Player():
-    def __init__(self, x: int = 5, y: int = 5):
+    def __init__(self, x: int = 4, y: int = 4):
         self.name = "Carlos"
         self.health = 20
         self.walking_speed = 5 
@@ -80,7 +81,7 @@ class Player():
 
         self.animation_frame = 0
         self.animation_timer = 0
-        
+
     @property
     def hitbox(self):
         hitbox_width = 32
@@ -100,7 +101,10 @@ class Player():
 
     def on_bush_collision(self):
         self.walking_speed = 1
-        print(f"{self.name} wszedła w krzak! Przygotuj się na walke??")
+        rng = np.random.randint(100)
+
+        if(rng < 30):
+            print(f"{self.name} wszedła w krzak! Przygotuj się na walke??")
 
     def update(self, map):
         keys = pygame.key.get_pressed()
@@ -160,8 +164,9 @@ class Player():
                 if map.is_solid_at_pixel(cx, cy):
                     self.y -= dy
                     break
+
         trigger_detected = map.check_trigger_at_pixel(self.x, self.y)
-        if trigger_detected == TileType.BUSH:
+        if trigger_detected == TileType.BUSH: 
             self.on_bush_collision()
         else:
             self.walking_speed = 5

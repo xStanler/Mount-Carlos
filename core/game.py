@@ -29,7 +29,9 @@ class Game:
         self.tiles = Tiles()
         self.map = Map(self.tiles)
 
-        self.player = Player()
+        sx, sy = self.map.player_starting_pos()
+        print(sx, sy)
+        self.player = Player(sx, sy)
     
     def run(self):
         self.mouse_clicked = False
