@@ -18,6 +18,19 @@ class TileType(Enum):
 class Tiles:
     def __init__(self, texture_size=(16, 16), render_size=(64, 64)):
         self.tiles = dict()
+        self.solid_tiles = {
+                TileType.TREE,
+                TileType.CORNER,
+                TileType.WALL,
+                TileType.WALLLEFT,
+                TileType.WALLRIGHT,
+                TileType.WALLTOP,
+                TileType.WALLBOTTOM
+                }
+        self.trigger_tiles = {
+                TileType.BUSH
+                }
+        
         self.texture_size = texture_size
         self.render_size = render_size
 
@@ -107,14 +120,42 @@ class Map:
                 if rng <= 5:
                     self.map[xMap+1, yMap+2] = TileType.TREE
 
+    def is_solid_at_pixel(self, pixel_x, pixel_y):
+        tile_w, tile_h = self.tiles.get_size()
+        map_x = int(pixel_x // tile_w)
+        map_y = int(pixel_y // tile_h)
 
-    def render(self):
+        if map_x < 0 or map_x >= self.size[0] or map_y < 0 or map_y >= self.size[1]:
+            return True
+
+        return self.map[map_x, map_y] in self.tiles.solid_tiles
+
+    def check_trigger_at_pixel(self, pixel_x, pixel_y):
+        tile_w, tile_h = self.tiles.get_size()
+        map_x = int(pixel_x // tile_w)
+        map_y = int(pixel_y // tile_h)
+
+        if map_x < 0 or map_x >= self.size[0] or map_y < 0 or map_y >= self.size[1]:
+            return None
+
+        tile_type = self.map[map_x, map_y]
+
+        if tile_type in self.tiles.trigger_tiles:
+            return tile_type
+
+        return None
+
+    def render(self, screen, camera):
         w, h = self.map.shape
 
         for y in range(h):
             for x in range(w):
                 tileType = self.map[x, y]
                 tile = self.tiles.get_tiles()["bush"]
+
+                i, j = self.tiles.get_size()
+                screen_x = int(x*i - camera.x)
+                screen_y = int(y*j - camera.y)
 
                 match tileType:
                     case TileType.GRASS | TileType.BUSH | TileType.TREE:
@@ -134,15 +175,21 @@ class Map:
                     case TileType.WALL:
                         tile = self.tiles.get_tiles()["wall"]
 
-                i, j = self.tiles.get_size()
-                self.image.blit(tile, (x*i, y*j))
+                # screen.blit(tile, (x*i, y*j))
+                screen.blit(tile, (screen_x, screen_y))
+                # self.image.blit(tile, (x*i, y*j))
 
                 if tileType == tileType.BUSH:
                     tile = self.tiles.get_tiles()["bush"]
-                    self.image.blit(tile, (x*i, y*j))
+                    # screen.blit(tile, (x*i, y*j))
+                    screen.blit(tile, (screen_x, screen_y))
+                    # self.image.blit(tile, (x*i, y*j))
                 elif tileType == tileType.TREE:
                     tile = self.tiles.get_tiles()["tree"]
-                    self.image.blit(tile, (x*i, y*j))
+                    # screen.blit(tile, (x*i, y*j))
+                    screen.blit(tile, (screen_x, screen_y))
+                    # self.image.blit(tile, (x*i, y*j))
+
 
 if __name__ == "__main__":
     tiles = Tiles()
