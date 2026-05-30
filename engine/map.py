@@ -28,7 +28,7 @@ class Tiles:
                 TileType.WALLBOTTOM
                 }
         self.trigger_tiles = {
-                TileType.BUSH
+                TileType.BUSH,
                 }
         
         self.texture_size = texture_size
