@@ -1,3 +1,4 @@
+from engine.map import TileType
 import pygame
 from pathlib import Path
 
@@ -63,8 +64,10 @@ class Player():
         self.health = 20
         self.walking_speed = 5 
         self.moves = []
-
         self.scale = 64
+        self.x = x*self.scale 
+        self.y = y*self.scale 
+
         self.mapX = 42
         self.mapY = 43
 
@@ -78,41 +81,90 @@ class Player():
         self.animation_frame = 0
         self.animation_timer = 0
         
-        self.x = x*self.scale 
-        self.y = y*self.scale 
+    @property
+    def hitbox(self):
+        hitbox_width = 32
+        hitbox_height = 32
+
+        return pygame.Rect(
+                self.x - hitbox_width // 2,
+                self.y - hitbox_height // 2,
+                hitbox_width,
+                hitbox_height
+                )
 
     def create_moves(self):
         self.moves.append(Move("Heal", 0, 5, 4))
         self.moves.append(Move("Quick Attack", 2, 0, 20))
         self.moves.append(Move("Strong Attack", 7, 0, 2))
 
-    def update(self):
+    def on_bush_collision(self):
+        self.walking_speed = 1
+        print(f"{self.name} wszedła w krzak! Przygotuj się na walke??")
+
+    def update(self, map):
         keys = pygame.key.get_pressed()
         self.moving = False
 
-        if (keys[pygame.K_w] or keys[pygame.K_UP]) and (self.scale*2.5 < self.y - self.walking_speed):
+        dx = 0
+        dy = 0
+
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.direction = "up"
             self.moving = True
 
-            self.y -= self.walking_speed
+            dy -= self.walking_speed
 
-        if keys[pygame.K_s] or keys[pygame.K_DOWN] and (self.y + self.walking_speed < self.scale*(self.mapY - 1.5)):
+        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.direction = "down"
             self.moving = True
 
-            self.y += self.walking_speed
+            dy += self.walking_speed
 
-        if keys[pygame.K_a] or keys[pygame.K_LEFT] and (self.scale*1.5 < self.x - self.walking_speed):
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.direction = "left"
             self.moving = True
 
-            self.x -= self.walking_speed
+            dx -= self.walking_speed
 
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT] and (self.x + self.walking_speed < self.scale*(self.mapX-1.5)):
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.direction = "right"
             self.moving = True
 
-            self.x += self.walking_speed
+            dx += self.walking_speed
+
+        if self.moving:
+            self.x += dx
+            current_hitbox = self.hitbox
+            corners_x = [
+                    (current_hitbox.left, current_hitbox.top),
+                    (current_hitbox.right, current_hitbox.top),
+                    (current_hitbox.left, current_hitbox.bottom),
+                    (current_hitbox.right, current_hitbox.bottom)
+                ]
+            for cx, cy in corners_x:
+                if map.is_solid_at_pixel(cx, cy):
+                    self.x -= dx
+                    break
+
+        # Oś Y
+            self.y += dy
+            current_hitbox = self.hitbox
+            corners_y = [
+                (current_hitbox.left, current_hitbox.top),
+                (current_hitbox.right, current_hitbox.top),
+                (current_hitbox.left, current_hitbox.bottom),
+                (current_hitbox.right, current_hitbox.bottom)
+            ]
+            for cx, cy in corners_y:
+                if map.is_solid_at_pixel(cx, cy):
+                    self.y -= dy
+                    break
+        trigger_detected = map.check_trigger_at_pixel(self.x, self.y)
+        if trigger_detected == TileType.BUSH:
+            self.on_bush_collision()
+        else:
+            self.walking_speed = 5
 
         self.animation_timer += 1
 
@@ -148,3 +200,7 @@ class Player():
         sprite = self.current_sprite()
 
         screen.blit(sprite, (int(self.x - camera.x - 96), int(self.y - camera.y - 96*1.5)))
+
+        #WARNING: DEBUG HITBOX
+        debug_rect = pygame.Rect(int(self.hitbox.x - camera.x), int(self.hitbox.y - camera.y), self.hitbox.width, self.hitbox.height)
+        pygame.draw.rect(screen, (255, 0, 0), debug_rect, 2)

@@ -42,7 +42,7 @@ class Game:
             )
 
     def update(self):
-        self.player.update()
+        self.player.update(self.map)
         self.camera.update(self.player, self.screen)
 
     def render(self):
