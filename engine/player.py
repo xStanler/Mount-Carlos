@@ -1,6 +1,7 @@
 from engine.map import TileType
 import pygame
 from pathlib import Path
+import numpy as np
 
 #Move class
 class Move():
@@ -59,14 +60,16 @@ class CharacterSprites:
 
 #NOTE: Player() class
 class Player():
-    def __init__(self, x: int = 5, y: int = 5):
+    def __init__(self, x: int = 4, y: int = 4):
         self.name = "Carlos"
         self.health = 20
         self.walking_speed = 5 
         self.moves = []
         self.scale = 64
         self.x = x*self.scale 
-        self.y = y*self.scale 
+        self.y = y*self.scale*1.5 
+        self.last_tile_x = None
+        self.last_tile_y = None
 
         self.mapX = 42
         self.mapY = 43
@@ -80,7 +83,7 @@ class Player():
 
         self.animation_frame = 0
         self.animation_timer = 0
-        
+
     @property
     def hitbox(self):
         hitbox_width = 32
@@ -100,11 +103,16 @@ class Player():
 
     def on_bush_collision(self):
         self.walking_speed = 1
-        print(f"{self.name} wszedła w krzak! Przygotuj się na walke??")
+        rng = np.random.randint(100)
+
+        if(rng < 50):
+            print(f"{self.name} wszedł w krzak! Przygotuj się na walke??")
 
     def update(self, map):
         keys = pygame.key.get_pressed()
         self.moving = False
+        tile_x = int(self.x // self.scale)
+        tile_y = int(self.y // self.scale)
 
         dx = 0
         dy = 0
@@ -160,11 +168,17 @@ class Player():
                 if map.is_solid_at_pixel(cx, cy):
                     self.y -= dy
                     break
-        trigger_detected = map.check_trigger_at_pixel(self.x, self.y)
-        if trigger_detected == TileType.BUSH:
-            self.on_bush_collision()
-        else:
-            self.walking_speed = 5
+
+        if( tile_x != self.last_tile_x or tile_y != self.last_tile_y ):
+
+            trigger_detected = map.check_trigger_at_pixel(self.x, self.y)
+            if trigger_detected == TileType.BUSH: 
+                self.on_bush_collision()
+            else:
+                self.walking_speed = 5
+
+            self.last_tile_x = tile_x
+            self.last_tile_y = tile_y
 
         self.animation_timer += 1
 
