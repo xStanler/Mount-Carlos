@@ -61,7 +61,8 @@ class Game:
             elif event.type == pygame.VIDEORESIZE:
                 self.screen = pygame.display.set_mode(
                 event.size,
-                pygame.RESIZABLE | pygame.SCALED
+                pygame.RESIZABLE | pygame.SCALED,
+                vsync=1
             )
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
