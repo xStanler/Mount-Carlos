@@ -62,6 +62,8 @@ class Player():
         self.scale = 64
         self.x = x*self.scale 
         self.y = y*self.scale*1.5 
+        self.startPosX = self.x
+        self.startPosY = self.y
         self.last_tile_x = None
         self.last_tile_y = None
 
@@ -69,6 +71,7 @@ class Player():
         self.mapY = 43
 
         self.create_moves()
+        self.in_battle = False
 
         self.direction = "down"
         self.moving = False
@@ -100,8 +103,9 @@ class Player():
         self.walking_speed = 1
         rng = np.random.randint(100)
 
-        if(rng < 50):
+        if (self.x != self.startPosX or self.y != self.startPosY) and rng < 50:
             print(f"{self.name} wszedł w krzak! Przygotuj się na walke??")
+            self.in_battle = True
 
     def update_animation(self):
         self.animation_timer += 1
