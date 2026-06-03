@@ -96,6 +96,7 @@ class Game:
 
     def update(self):
         self.player.update(self.map)
+        self.player.update_animation()
         self.camera.update(self.player, self.screen)
 
     def render(self):

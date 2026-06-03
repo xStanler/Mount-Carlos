@@ -103,6 +103,13 @@ class Player():
         if(rng < 50):
             print(f"{self.name} wszedł w krzak! Przygotuj się na walke??")
 
+    def update_animation(self):
+        self.animation_timer += 1
+
+        if self.animation_timer >= 10:
+            self.animation_timer = 0
+            self.animation_frame = (self. animation_frame + 1) % 6
+
     def update(self, map):
         keys = pygame.key.get_pressed()
         self.moving = False
@@ -175,12 +182,6 @@ class Player():
             self.last_tile_x = tile_x
             self.last_tile_y = tile_y
 
-        self.animation_timer += 1
-
-        if self.animation_timer >= 10:
-            self.animation_timer = 0
-            self.animation_frame = (self.animation_frame + 1) % 6
-
     def current_sprite(self):
         if self.moving:
 
@@ -204,6 +205,9 @@ class Player():
                     return self.sprites.idle_right[self.animation_frame]
                 case "left":
                     return self.sprites.idle_left[self.animation_frame]
+
+    def battle_sprite(self):
+        return self.sprites.idle_right[self.animation_frame]
     
     def render(self, screen, camera):
         sprite = self.current_sprite()

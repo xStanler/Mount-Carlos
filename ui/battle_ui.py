@@ -1,5 +1,5 @@
 from engine.player import Player
-from engine.enemy import Enemy
+from engine.enemy import Enemy, State
 from engine.camera import Camera
 import pygame
 from pathlib import Path
@@ -18,43 +18,26 @@ class BattleUI:
         self.ground = pygame.transform.scale_by(self.ground, 2)
     
     def show_player(self, screen):
-        self.player.moving = False
-        self.player.direction = "right"
-        sprite = self.player.current_sprite()
+        sprite = self.player.battle_sprite()
 
         screen.blit(sprite, (self.ground.get_size()[0]//2 - self.player.scale // 1.5, int(screen.get_size()[1] - self.ground.get_size()[1]*2) - self.player.scale*2.5))
 
-        self.player.animation_timer += 1
-
-        if self.player.animation_timer >= 10:
-            self.player.animation_timer = 0
-            self.player.animation_frame = (self.player.animation_frame + 1) % 6
-
+        self.player.update_animation()
+        
     def show_enemy(self, screen):
-        len = 0
         size = (0, 0)
-        speed = 20
-        match self.enemy.state:
-            case 0:
-                len = self.enemy.sprites.idle_len
-                size = self.enemy.sprites.idle_size
-            case 1:
-                len = self.enemy.sprites.attack_len
-                size = self.enemy.sprites.attack_size
-                speed = 10
-            case 2:
-                len = self.enemy.sprites.hurt_len
-                size = self.enemy.sprites.hurt_size
-                speed = 15
         currentSprites = self.enemy.get_sprites()
+        match self.enemy.state:
+            case State.IDLE:
+                size = self.enemy.sprites.idle_size
+            case State.ATTACK:
+                size = self.enemy.sprites.attack_size
+            case State.HURT:
+                size = self.enemy.sprites.hurt_size
 
         screen.blit(currentSprites[self.enemy.animation_frame], (screen.get_size()[0] - self.ground.get_size()[0] + size[0], 100 - size[1]))
 
-        self.enemy.animation_timer += 1
-
-        if self.enemy.animation_timer >= speed:
-            self.enemy.animation_timer = 0
-            self.enemy.animation_frame = (self.enemy.animation_frame + 1) % len 
+        self.enemy.update_animation()
 
     def show_moves(self, screen):
         moves = self.player.moves
