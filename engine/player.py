@@ -63,6 +63,7 @@ class Player():
     def __init__(self, x: int = 4, y: int = 4):
         self.name = "Carlos"
         self.health = 20
+        self.HEALTH = self.health
         self.walking_speed = 5 
         self.moves = []
         self.scale = 64
@@ -97,9 +98,10 @@ class Player():
                 )
 
     def create_moves(self):
+        self.moves.append(Move("Healing Axe", 6, 3, 2))
         self.moves.append(Move("Heal", 0, 5, 4))
         self.moves.append(Move("Quick Attack", 2, 0, 20))
-        self.moves.append(Move("Strong Attack", 7, 0, 2))
+        self.moves.append(Move("Strong Attack", 7, 0, 3))
 
     def on_bush_collision(self):
         self.walking_speed = 1
