@@ -12,6 +12,11 @@ class EnemyType(Enum):
     MYTHIC = 4
     EMPTY = 5
 
+class State(Enum):
+    IDLE = 0
+    ATTACK = 1
+    HURT = 2
+
 class EntitySprites:
     
     def __init__(self, enType):
@@ -137,8 +142,7 @@ class Enemy:
 
         self.animation_timer = 0
         self.animation_frame = 0
-        #0 -> idle 1 -> attack 2 -> hurt
-        self.state = 0
+        self.state = State.IDLE
 
         self.make_moves()
         self.get_name()
@@ -150,11 +154,11 @@ class Enemy:
 
     def get_sprites(self):
         match self.state:
-            case 0:
+            case State.IDLE:
                 return self.sprites.idle
-            case 1:
+            case State.ATTACK:
                 return self.sprites.attack
-            case 2:
+            case State.HURT:
                 return self.sprites.hurt
 
         return self.sprites.idle
@@ -188,6 +192,27 @@ class Enemy:
 
         for i in range(3):
             self.moves.append(aviableMoves[np.random.randint(len(aviableMoves))])
+
+    def update_animation(self):
+        speed = 20
+        len = 0
+
+        match self.state:
+            case State.IDLE:
+                len = self.sprites.idle_len
+            case State.ATTACK:
+                len = self.sprites.attack_len
+                speed = 10
+            case State.HURT:
+                len = self.sprites.hurt_len
+                speed = 15
+
+        self.animation_timer += 1
+
+        if self.animation_timer >= speed:
+            self.animation_timer = 0
+            self.animation_frame = (self.animation_frame + 1) % len 
+
 
 # if __name__ == "__main__":
 #     screen = pygame.display.set_mode((100, 100), pygame.SCALED)

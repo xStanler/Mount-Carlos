@@ -149,7 +149,7 @@ class Map:
         for dy in range(17, 27):
             for dx in range(16, 26):
                 print(self.map[dx, dy])
-                if (self.map[dx, dy] == TileType.GRASS or self.map[dx, dy] == TileType.BUSH) and (self.map[dx, dy-1] == TileType.GRASS or self.map[dx, dy-1] == TileType.BUSH):
+                if (self.map[dx, dy] == TileType.GRASS or self.map[dx, dy] == TileType.BUSH) and (self.map[dx, dy-1] == TileType.GRASS or self.map[dx, dy-1] == TileType.BUSH) and (self.map[dx + 1, dy] == TileType.GRASS or self.map[dx + 1, dy] == TileType.BUSH):
                     return dx, dy
 
         return 0, 0
