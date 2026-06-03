@@ -1,15 +1,8 @@
 from engine.map import TileType
+from utils.move import Move
 import pygame
 from pathlib import Path
 import numpy as np
-
-#Move class
-class Move():
-    def __init__(self, name: str = 'None', attack: int = 0, heal: int = 0, uses: int = 5):
-        self.name = name
-        self.attack = attack
-        self.heal = heal
-        self.uses = uses
 
 #NOTE: Character Sprites class
 class CharacterSprites:

@@ -1,5 +1,5 @@
 import pygame
-from engine.player import Move
+from utils.move import Move
 from pathlib import Path
 from enum import Enum
 import numpy as np

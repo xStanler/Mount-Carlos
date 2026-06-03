@@ -1,5 +1,5 @@
 from engine.player import Player
-from engine.enemy import Enemy, EnemyType
+from engine.enemy import Enemy
 from engine.camera import Camera
 import pygame
 from pathlib import Path
