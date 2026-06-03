@@ -1,10 +1,11 @@
 from engine.player import Player
+from engine.enemy import Enemy, EnemyType
 from engine.camera import Camera
 import pygame
 from pathlib import Path
 
 class BattleUI:
-    def __init__(self, screen, player, enemy = None):
+    def __init__(self, screen, player, enemy):
         self.screen = screen
         self.player = player
         self.enemy = enemy
@@ -21,7 +22,7 @@ class BattleUI:
         self.player.direction = "right"
         sprite = self.player.current_sprite()
 
-        screen.blit(sprite, (self.ground.get_size()[0]//2 - self.player.scale // 1.5, screen.get_size()[1]//2 - self.player.scale/1.5))
+        screen.blit(sprite, (self.ground.get_size()[0]//2 - self.player.scale // 1.5, int(screen.get_size()[1] - self.ground.get_size()[1]*2) - self.player.scale*2.5))
 
         self.player.animation_timer += 1
 
@@ -30,7 +31,14 @@ class BattleUI:
             self.player.animation_frame = (self.player.animation_frame + 1) % 6
 
     def show_enemy(self, screen):
-        pass
+
+        screen.blit(self.enemy.sprites.idle[self.enemy.animation_frame], (screen.get_size()[0] - self.ground.get_size()[0] + self.enemy.sprites.idle_size[0], 100 - self.enemy.sprites.idle_size[1]))
+
+        self.enemy.animation_timer += 1
+
+        if self.enemy.animation_timer >= 20:
+            self.enemy.animation_timer = 0
+            self.enemy.animation_frame = (self.enemy.animation_frame + 1) % self.enemy.sprites.idle_len
 
     def show_moves(self, screen):
         moves = self.player.moves
@@ -73,8 +81,9 @@ if __name__ == "__main__":
 
     camera = Camera()
     player = Player(0, 0)
+    enemy = Enemy("Draco", EnemyType.GRASS)
 
-    battle = BattleUI(screen, player)
+    battle = BattleUI(screen, player, enemy)
 
     running = True
 
