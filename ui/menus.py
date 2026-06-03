@@ -1,0 +1,112 @@
+import pygame
+from pathlib import Path
+
+class Button:
+    def __init__(self, text, x, y, width, height, base_color, hover_color, font):
+        self.text = text
+        self.width = width
+        self.height = height
+        self.rect = pygame.Rect(x, y, width, height)
+        self.base_color = base_color
+        self.hover_color = hover_color
+        self.font = font
+        self.current_color = self.base_color
+
+    def update(self, mouse_pos):
+        if self.rect.collidepoint(mouse_pos):
+            self.current_color = self.hover_color
+        else:
+            self.current_color = self.base_color
+    def set_position(self, x, y):
+        self.rect = pygame.Rect(x, y, self.width, self.height)
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, self.current_color, self.rect, border_radius=10)
+        text_surf = self.font.render(self.text, True, (255, 255, 255))
+        text_rect = text_surf.get_rect(center=self.rect.center)
+        screen.blit(text_surf, text_rect)
+
+    def is_clicked(self, mouse_pos, mouse_up_event):
+        return self.rect.collidepoint(mouse_pos) and mouse_up_event
+
+class MainMenu():
+    def __init__(self, screen_width, screen_height):
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+
+        font_path = Path(__file__).parent.parent / "assets/VT323-Regular.ttf"
+        self.title_font = pygame.font.Font(str(font_path), 72)
+        self.button_font = pygame.font.Font(str(font_path), 32)
+
+        btn_w, btn_h = 240, 50
+        btn_x = (self.screen_width // 2) - (btn_w // 2)
+
+        self.start_button = Button("ROZPOCZNIJ GRĘ", btn_x, 250, btn_w, btn_h, (60, 83, 60), (51, 71, 51), self.button_font)
+        self.quit_button = Button("WYJDŹ", btn_x, 330, btn_w, btn_h, (60, 82, 60), (51, 71, 51), self.button_font)
+
+        self.title_surf = self.title_font.render("MOUNT CARLOS", True, (193, 140, 93))
+        self.title_rect = self.title_surf.get_rect(center=(self.screen_width // 2, 120))
+
+    def update(self, mouse_pos, mouse_clicked):
+        self.start_button.update(mouse_pos)
+        self.quit_button.update(mouse_pos)
+
+        if self.start_button.is_clicked(mouse_pos, mouse_clicked):
+            return "START"
+        if self.quit_button.is_clicked(mouse_pos, mouse_clicked):
+            return "QUIT"
+
+        return "NONE"
+
+    def render(self, screen):
+        self.screen_width, self.screen_height = screen.get_size()
+        self.start_button.set_position((self.screen_width // 2) - (240 // 2), 250)
+        self.quit_button.set_position((self.screen_width // 2) - (240 // 2), 330)
+        self.title_rect = self.title_surf.get_rect(center=(self.screen_width // 2, 120))
+        # screen.fill((73, 88, 103))
+        screen.fill((102, 122, 143))
+
+        screen.blit(self.title_surf, self.title_rect)
+        self.start_button.draw(screen)
+        self.quit_button.draw(screen)
+
+class PauseMenu():
+    def __init__(self, screen_width, screen_height):
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+
+        font_path = Path(__file__).parent.parent / "assets/VT323-Regular.ttf"
+        self.title_font = pygame.font.Font(str(font_path), 72)
+        self.button_font = pygame.font.Font(str(font_path), 32)
+
+        btn_w, btn_h = 240, 50
+        btn_x = (self.screen_width // 2) - (btn_w // 2)
+
+        self.continue_button = Button("KONTYNUUJ GRĘ", btn_x, 250, btn_w, btn_h, (60, 83, 60), (51, 71, 51), self.button_font)
+        self.quit_button = Button("WYJDŹ", btn_x, 330, btn_w, btn_h, (60, 82, 60), (51, 71, 51), self.button_font)
+
+        self.title_surf = self.title_font.render("GRA PRZERWANA", True, (193, 140, 93))
+        self.title_rect = self.title_surf.get_rect(center=(self.screen_width // 2, 120))
+
+    def update(self, mouse_pos, mouse_clicked):
+        self.continue_button.update(mouse_pos)
+        self.quit_button.update(mouse_pos)
+
+        if self.continue_button.is_clicked(mouse_pos, mouse_clicked):
+            return "CONTINUE"
+        if self.quit_button.is_clicked(mouse_pos, mouse_clicked):
+            return "QUIT"
+
+        return "NONE"
+
+    def render(self, screen):
+        self.screen_width, self.screen_height = screen.get_size()
+        self.continue_button.set_position((self.screen_width // 2) - (240 // 2), 250)
+        self.quit_button.set_position((self.screen_width // 2) - (240 // 2), 330)
+        self.title_rect = self.title_surf.get_rect(center=(self.screen_width // 2, 120))
+        # screen.fill((73, 88, 103))
+        screen.fill((102, 122, 143))
+
+        screen.blit(self.title_surf, self.title_rect)
+        self.continue_button.draw(screen)
+        self.quit_button.draw(screen)

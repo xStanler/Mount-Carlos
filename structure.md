@@ -14,13 +14,21 @@ Monte-Carlos/
 │   ├── monte_carlo.py
 │   ├── simulation.py
 │
-├── creatures/
-│   ├── creature.py
-│   ├── moves.py
+├── utils/
+│   ├── move.py
 │
 ├── assets/
 │   ├── sprites/
-│   ├── maps/
+│       ├── Enemies/
+│       │   ├── Dragon/
+│       │   ├── Fire/
+│       │   ├── Grass/
+│       │   ├── Mythic/
+│       │   ├── Water/
+│       │   
+│       ├── Maps/
+│       ├── Player/
+│       ├── Tiles/
 │
 ├── ui/
 │   ├── battle_ui.py

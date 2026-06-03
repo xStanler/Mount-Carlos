@@ -1,7 +1,8 @@
+from core.game import Game
 # import
 def main():
-    print("Welcome in Monte Carlos project!")
+    game = Game()
+    game.run()
 
 if __name__ == '__main__':
     main()
-    # game();
