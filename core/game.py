@@ -44,8 +44,8 @@ class Game:
         print(sx, sy)
         self.player = Player(sx, sy)
         self.enemy = Enemy()
-        self.battleUI = BattleUI(self.screen, self.player, self.enemy)
         self.battle = Battle(self.player, self.enemy)
+        self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
     
     def run(self):
         while self.running:
@@ -87,6 +87,7 @@ class Game:
                     self.player.in_battle = False
 
                 self.battle.handle_event(event)
+            # self.battle.handle_event(event)
             
 
     def handle_states(self):
@@ -113,19 +114,24 @@ class Game:
         elif self.game_state == GameState.GAME:
             if self.player.in_battle:
                 self.enemy = Enemy()
-                self.battleUI = BattleUI(self.screen, self.player, self.enemy)
                 self.battle = Battle(self.player, self.enemy)
+                self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
                 self.game_state = GameState.BATTLE
             self.update()
             self.render()
 
         elif self.game_state == GameState.BATTLE:
+            self.battle.update()
             self.battleUI.render()
             self.battle.check_end()
+            self.player.update_animation()
+            self.enemy.update_animation()
 
             if self.battle.finished:
                 self.game_state = GameState.GAME
                 self.player.in_battle = False
+        if self.player.health == 0:
+            self.running = False
 
     def update(self):
         self.player.update(self.map)
