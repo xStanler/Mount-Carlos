@@ -30,6 +30,7 @@ class Battle:
 
         if move.uses <= 0:
             self.message = f"Nie można użyć {move.name}!"
+            self.state = BattleState.PLAYER_MESSAGE
             return
         move.uses -= 1
 
@@ -93,6 +94,7 @@ class Battle:
 
         if self.enemy.health <= 0:
             self.finished = True
+            self.message = f"{self.player.name} pokonał {self.enemy.name}"
             self.result = "win"
 
     def update(self):

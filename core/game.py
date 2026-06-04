@@ -122,8 +122,8 @@ class Game:
 
         elif self.game_state == GameState.BATTLE:
             self.battle.update()
-            self.battleUI.render()
             self.battle.check_end()
+            self.battleUI.render()
             self.player.update_animation()
             self.enemy.update_animation()
 
