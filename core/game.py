@@ -128,10 +128,11 @@ class Game:
             self.enemy.update_animation()
 
             if self.battle.finished:
+                self.player.restore_after_battle()
                 self.game_state = GameState.GAME
                 self.player.in_battle = False
-        if self.player.health == 0:
-            self.running = False
+                if self.player.health == 0:
+                    self.running = False
 
     def update(self):
         self.player.update(self.map)

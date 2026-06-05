@@ -1,7 +1,7 @@
 from engine.player import Player
 from engine.enemy import Enemy, State
 from utils.move import Move
-from ai.simulation import RandomChoice
+from ai.simulation import RandomChoice, MonteCarloRolloutAI
 from collections import deque
 import pygame
 from enum import Enum
@@ -49,8 +49,11 @@ class Battle:
         self.state = BattleState.PLAYER_MESSAGE
 
     def enemy_move(self):
-        enemyAI = RandomChoice(self.enemy.moves)
-        self.enemyMove = enemyAI.chooseMove()
+        # enemyAI = RandomChoice(self.enemy.moves)
+        # self.enemyMove = enemyAI.chooseMove()
+
+        enemyAI = MonteCarloRolloutAI()
+        self.enemyMove = enemyAI.choose_move(self.player, self.enemy)
 
         self.enemy.state = State.ATTACK
         self.enemy.animation_done = False
