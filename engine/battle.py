@@ -89,13 +89,16 @@ class Battle:
 
     def check_end(self):
         if self.player.health <= 0:
-            self.finished = True
-            self.result = "lose"
+            # self.finished = True
+            self.message = f"{self.player.name} został pokonany przez {self.enemy.name}:( !!"
+            self.state = BattleState.FINISHED
+            # self.result = "lose"
 
         if self.enemy.health <= 0:
-            self.finished = True
+            # self.finished = True
             self.message = f"{self.player.name} pokonał {self.enemy.name}"
-            self.result = "win"
+            self.state = BattleState.FINISHED
+            # self.result = "win"
 
     def update(self):
         if self.state == BattleState.ENEMY_TURN:
@@ -105,11 +108,15 @@ class Battle:
                 self.resolve_enemy_move()
 
     def handle_event(self, event):
+        if self.state == BattleState.FINISHED:
+            if event.key == pygame.K_RETURN:
+                self.finished = True
+
         if self.state == BattleState.PLAYER_MESSAGE:
             if event.key == pygame.K_RETURN:
                 self.message = None
-                self.state = BattleState.ENEMY_TURN
                 self.enemy_move()
+                self.state = BattleState.ENEMY_TURN
 
         if self.state == BattleState.ENEMY_MESSAGE:
             if event.key == pygame.K_RETURN:

@@ -2,7 +2,7 @@ from engine.map import Map, Tiles
 from engine.player import Player
 from engine.enemy import Enemy
 from engine.camera import Camera
-from engine.battle import Battle
+from engine.battle import Battle, BattleState
 from ui.menus import MainMenu, PauseMenu
 from ui.battle_ui import BattleUI
 import pygame

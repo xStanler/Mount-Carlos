@@ -97,5 +97,5 @@ class BattleUI:
         self.show_enemy()
         self.show_health(self.player, self.screen.get_size()[0] - 300, self.screen.get_size()[1] - self.ground.get_size()[1] - 170)
         self.show_health(self.enemy, 0, 20)
-        if self.battle.state == BattleState.PLAYER_MESSAGE or self.battle.state == BattleState.ENEMY_MESSAGE:
+        if self.battle.state == BattleState.PLAYER_MESSAGE or self.battle.state == BattleState.ENEMY_MESSAGE or self.battle.state == BattleState.FINISHED:
             self.show_messages()
