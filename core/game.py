@@ -48,6 +48,8 @@ class Game:
         self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
     
     def run(self):
+        print("Witam w grze Monut Carlos!\nPrzyciskami W, S, A, D lub strzałkami poruszasz się postacią.\nCelem gry jest walka z przeciwnikami znajdującymi sie w krzakach!\nWalka odbywa się w systemie turowym. Aby wybrać atak gracza, nalezy wcisnąć odpowiadający danemu ruchowi przycisk 1-4. Po każdej wiadomości wyświetlanej na ekrani, należy wcisnąć ENTER, aby kontynuować!!!\nPowodzenia, miłego grania")
+
         while self.running:
             self.mouse_clicked = False
             self.mouse_pos = pygame.mouse.get_pos()
@@ -128,11 +130,11 @@ class Game:
             self.enemy.update_animation()
 
             if self.battle.finished:
-                self.player.restore_after_battle()
                 self.game_state = GameState.GAME
                 self.player.in_battle = False
-                if self.player.health == 0:
+                if self.player.health <= 0:
                     self.running = False
+                self.player.restore_after_battle()
 
     def update(self):
         self.player.update(self.map)
