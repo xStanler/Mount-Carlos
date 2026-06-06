@@ -142,6 +142,7 @@ class Enemy:
 
         self.animation_timer = 0
         self.animation_frame = 0
+        self.animation_done = False
         self.state = State.IDLE
 
         self.make_moves()
@@ -195,23 +196,27 @@ class Enemy:
 
     def update_animation(self):
         speed = 20
-        len = 0
+        length = 0
 
         match self.state:
             case State.IDLE:
-                len = self.sprites.idle_len
+                length = self.sprites.idle_len
             case State.ATTACK:
-                len = self.sprites.attack_len
+                length = self.sprites.attack_len
                 speed = 10
             case State.HURT:
-                len = self.sprites.hurt_len
+                length = self.sprites.hurt_len
                 speed = 15
 
         self.animation_timer += 1
 
         if self.animation_timer >= speed:
             self.animation_timer = 0
-            self.animation_frame = (self.animation_frame + 1) % len 
+            self.animation_frame += 1
+
+            if self.animation_frame >= length:
+                self.animation_frame = 0
+                self.animation_done = True
 
 
 # if __name__ == "__main__":

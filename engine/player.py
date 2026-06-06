@@ -104,8 +104,15 @@ class Player():
         rng = np.random.randint(100)
 
         if (self.x != self.startPosX or self.y != self.startPosY) and rng < 50:
-            print(f"{self.name} wszedł w krzak! Przygotuj się na walke??")
             self.in_battle = True
+    
+    def restore_after_battle(self):
+        self.moves[0].uses = 2
+        self.moves[1].uses = 4
+        self.moves[2].uses = 20
+        self.moves[3].uses = 3
+        
+        self.health += np.random.randint(8)
 
     def update_animation(self):
         self.animation_timer += 1

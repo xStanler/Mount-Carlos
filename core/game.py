@@ -2,7 +2,7 @@ from engine.map import Map, Tiles
 from engine.player import Player
 from engine.enemy import Enemy
 from engine.camera import Camera
-from engine.battle import Battle
+from engine.battle import Battle, BattleState
 from ui.menus import MainMenu, PauseMenu
 from ui.battle_ui import BattleUI
 import pygame
@@ -44,10 +44,12 @@ class Game:
         print(sx, sy)
         self.player = Player(sx, sy)
         self.enemy = Enemy()
-        self.battleUI = BattleUI(self.screen, self.player, self.enemy)
         self.battle = Battle(self.player, self.enemy)
+        self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
     
     def run(self):
+        print("Witam w grze Monut Carlos!\nPrzyciskami W, S, A, D lub strzałkami poruszasz się postacią.\nCelem gry jest walka z przeciwnikami znajdującymi sie w krzakach!\nWalka odbywa się w systemie turowym. Aby wybrać atak gracza, nalezy wcisnąć odpowiadający danemu ruchowi przycisk 1-4. Po każdej wiadomości wyświetlanej na ekrani, należy wcisnąć ENTER, aby kontynuować!!!\nPowodzenia, miłego grania")
+
         while self.running:
             self.mouse_clicked = False
             self.mouse_pos = pygame.mouse.get_pos()
@@ -87,6 +89,7 @@ class Game:
                     self.player.in_battle = False
 
                 self.battle.handle_event(event)
+            # self.battle.handle_event(event)
             
 
     def handle_states(self):
@@ -113,19 +116,25 @@ class Game:
         elif self.game_state == GameState.GAME:
             if self.player.in_battle:
                 self.enemy = Enemy()
-                self.battleUI = BattleUI(self.screen, self.player, self.enemy)
                 self.battle = Battle(self.player, self.enemy)
+                self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
                 self.game_state = GameState.BATTLE
             self.update()
             self.render()
 
         elif self.game_state == GameState.BATTLE:
-            self.battleUI.render()
+            self.battle.update()
             self.battle.check_end()
+            self.battleUI.render()
+            self.player.update_animation()
+            self.enemy.update_animation()
 
             if self.battle.finished:
                 self.game_state = GameState.GAME
                 self.player.in_battle = False
+                if self.player.health <= 0:
+                    self.running = False
+                self.player.restore_after_battle()
 
     def update(self):
         self.player.update(self.map)

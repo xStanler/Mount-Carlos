@@ -1,17 +1,20 @@
 from engine.player import Player
 from engine.enemy import Enemy, State
 from engine.camera import Camera
+from engine.battle import BattleState
 import pygame
 from pathlib import Path
 
 class BattleUI:
-    def __init__(self, screen, player, enemy):
+    def __init__(self, screen, player, enemy, battle):
         self.screen = screen
         self.player = player
         self.enemy = enemy
+        self.battle = battle
 
         fontPath = Path(__file__).parent.parent / "assets/VT323-Regular.ttf"
         self.font = pygame.font.Font(str(fontPath), 32)
+        self.fontMessage = pygame.font.Font(str(fontPath), 14)
         groundPath = Path(__file__).parent.parent / "assets/battle_grass.png"
         self.ground = pygame.image.load(groundPath).convert_alpha()
         self.ground = pygame.transform.scale_by(self.ground, 2)
@@ -61,12 +64,24 @@ class BattleUI:
         pygame.draw.rect(self.screen, (120, 120, 120), pygame.Rect(x + 20, y + 60, 260, 10))
         pygame.draw.rect(self.screen, (0, 255, 0), pygame.Rect(x + 20, y + 60, 260 * (entity.health / entity.HEALTH), 10))
 
-    # def show_mesages(self):
-    #     y = 20
-    #     for message in list(self.battle.message_queue):
-    #         text = self.font.render(message, True, (0, 0, 0))
-    #         self.screen.blit(text, (20, y))
-    #         y += 30
+    def show_messages(self):
+        if self.battle.message == None:
+            return
+
+        message = self.battle.message
+
+        rect = pygame.Rect(
+                self.screen.get_width() // 2 - 250,
+                self.screen.get_height() // 2 - 50,
+                500,
+                100
+                )
+        pygame.draw.rect(self.screen, (255, 255, 255), rect)
+        pygame.draw.rect(self.screen, (0, 0, 0), rect, 4)
+
+        text = self.fontMessage.render(message, True, (0, 0, 0))
+        text_rect = text.get_rect(center=rect.center)
+        self.screen.blit(text, text_rect)
 
     def render(self):
         self.screen.fill((183, 221, 166))
@@ -82,38 +97,5 @@ class BattleUI:
         self.show_enemy()
         self.show_health(self.player, self.screen.get_size()[0] - 300, self.screen.get_size()[1] - self.ground.get_size()[1] - 170)
         self.show_health(self.enemy, 0, 20)
-
-
-#WARNING: DELETE AFTER DEBUGGING
-def handle_events():
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            return False
-
-    return True
-
-if __name__ == "__main__":
-    pygame.init()
-    
-    screen = pygame.display.set_mode((640, 640), pygame.SCALED, vsync=1)
-    # screen = pygame.display.set_mode((1280, 900), pygame.SCALED, vsync=1)
-    clock = pygame.time.Clock()
-
-    camera = Camera()
-    player = Player()
-    enemy = Enemy()
-
-    battle = BattleUI(screen, player, enemy)
-
-    running = True
-
-    while running:
-        running = handle_events()
-
-        battle.render()
-
-        pygame.display.flip()
-        clock.tick(60)
-
-    pygame.quit()
+        if self.battle.state == BattleState.PLAYER_MESSAGE or self.battle.state == BattleState.ENEMY_MESSAGE or self.battle.state == BattleState.FINISHED:
+            self.show_messages()

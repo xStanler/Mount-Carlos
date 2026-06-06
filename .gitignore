@@ -1,6 +1,7 @@
 # Don't know if to include assets
 assets/ 
 assets/.DS_Store
+TODO.md
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
