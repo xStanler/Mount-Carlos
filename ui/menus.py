@@ -42,17 +42,21 @@ class MainMenu():
         btn_x = (self.screen_width // 2) - (btn_w // 2)
 
         self.start_button = Button("ROZPOCZNIJ GRĘ", btn_x, 250, btn_w, btn_h, (60, 83, 60), (51, 71, 51), self.button_font)
-        self.quit_button = Button("WYJDŹ", btn_x, 330, btn_w, btn_h, (60, 82, 60), (51, 71, 51), self.button_font)
+        self.settings_button = Button("USTAWIENIA", btn_x, 330, btn_w, btn_h, (60, 83, 60), (51, 71, 51), self.button_font)
+        self.quit_button = Button("WYJDŹ", btn_x, 410, btn_w, btn_h, (60, 82, 60), (51, 71, 51), self.button_font)
 
         self.title_surf = self.title_font.render("MOUNT CARLOS", True, (193, 140, 93))
         self.title_rect = self.title_surf.get_rect(center=(self.screen_width // 2, 120))
 
     def update(self, mouse_pos, mouse_clicked):
         self.start_button.update(mouse_pos)
+        self.settings_button.update(mouse_pos)
         self.quit_button.update(mouse_pos)
 
         if self.start_button.is_clicked(mouse_pos, mouse_clicked):
             return "START"
+        if self.settings_button.is_clicked(mouse_pos, mouse_clicked):
+            return "SETTINGS"
         if self.quit_button.is_clicked(mouse_pos, mouse_clicked):
             return "QUIT"
 
@@ -61,13 +65,15 @@ class MainMenu():
     def render(self, screen):
         self.screen_width, self.screen_height = screen.get_size()
         self.start_button.set_position((self.screen_width // 2) - (240 // 2), 250)
-        self.quit_button.set_position((self.screen_width // 2) - (240 // 2), 330)
+        self.settings_button.set_position((self.screen_width // 2) - (240 // 2), 330)
+        self.quit_button.set_position((self.screen_width // 2) - (240 // 2), 410)
         self.title_rect = self.title_surf.get_rect(center=(self.screen_width // 2, 120))
         # screen.fill((73, 88, 103))
         screen.fill((102, 122, 143))
 
         screen.blit(self.title_surf, self.title_rect)
         self.start_button.draw(screen)
+        self.settings_button.draw(screen)
         self.quit_button.draw(screen)
 
 class PauseMenu():

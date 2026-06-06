@@ -226,5 +226,5 @@ class Player():
         screen.blit(sprite, (int(self.x - camera.x - 96), int(self.y - camera.y - 96*1.5)))
 
         #WARNING: DEBUG HITBOX
-        debug_rect = pygame.Rect(int(self.hitbox.x - camera.x), int(self.hitbox.y - camera.y), self.hitbox.width, self.hitbox.height)
-        pygame.draw.rect(screen, (255, 0, 0), debug_rect, 2)
+        # debug_rect = pygame.Rect(int(self.hitbox.x - camera.x), int(self.hitbox.y - camera.y), self.hitbox.width, self.hitbox.height)
+        # pygame.draw.rect(screen, (255, 0, 0), debug_rect, 2)

@@ -12,11 +12,12 @@ from pathlib import Path
 from enum import Enum
 
 class GameState(Enum):
-    MENU = 0,
-    LOADING = 1,
-    GAME = 2,
-    BATTLE = 3,
+    MENU = 0
+    LOADING = 1
+    GAME = 2
+    BATTLE = 3
     PAUSE = 4
+    SETTINGS = 5
 
 class Game:
     def __init__(self):
@@ -40,7 +41,7 @@ class Game:
 
         self.tiles = Tiles()
         self.map = Map(self.tiles)
-        self.settings = Settings()
+        self.settings = Settings(self.screen)
 
         sx, sy = self.map.player_starting_pos()
         self.player = Player(sx, sy)
@@ -99,6 +100,8 @@ class Game:
 
             if menu_action == "START":
                 self.game_state = GameState.GAME
+            if menu_action == "SETTINGS":
+                self.game_state = GameState.SETTINGS
             elif menu_action == "QUIT":
                 self.running = False
 
@@ -136,6 +139,11 @@ class Game:
                 if self.player.health <= 0:
                     self.running = False
                 self.player.restore_after_battle()
+        elif self.game_state == GameState.SETTINGS:
+            settings_changed = self.settings.update(self.mouse_pos, self.mouse_clicked)
+            if settings_changed:
+                self.game_state = GameState.MENU
+            self.settings.render(self.screen)
 
     def update(self):
         self.player.update(self.map)

@@ -123,7 +123,7 @@ class MonteCarloAI:
             node = node.parent
 
     #NOTE: MCTS -> renamed to choose_move()
-    def mcts(self):
+    def choose_move(self):
         if self.root_state.player_turn:
             moves = [m for m in self.root_state.player_moves if m.uses > 0]
         else:
