@@ -64,22 +64,24 @@ class RandomChoice:
     def __init__(self, moves):
         self.moves = moves
 
-    def chooseMove(self):
+    def choose_move(self):
         # rng = np.random.randint(len(self.moves))
         #
         # return self.moves[rng]
         return random_move(self.moves)
 
 class MonteCarloRolloutAI:
-    def __init__(self, simulations = 500):
+    def __init__(self, player, enemy, simulations = 500):
+        self.player = player
+        self.enemy = enemy
         self.simulations = simulations
 
-    def build_state(self, player, enemy):
+    def build_state(self):
         return CurrentBattleState(
-                player_hp=player.health,
-                enemy_hp=enemy.health,
-                player_moves=player.moves,
-                enemy_moves=enemy.moves,
+                player_hp=self.player.health,
+                enemy_hp=self.enemy.health,
+                player_moves=self.player.moves,
+                enemy_moves=self.enemy.moves,
                 player_turn=False
                 )
 
@@ -103,13 +105,13 @@ class MonteCarloRolloutAI:
         
         return wins
     
-    def choose_move(self, player, enemy):
-        state = self.build_state(player, enemy)
+    def choose_move(self):
+        state = self.build_state()
 
         best_move = None
         best_score = -1
 
-        for i, move in enumerate(enemy.moves):
+        for i, move in enumerate(self.enemy.moves):
             if move.uses <= 0:
                 continue
 

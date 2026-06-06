@@ -1,3 +1,4 @@
+from core.settings import Settings
 from engine.map import Map, Tiles
 from engine.player import Player
 from engine.enemy import Enemy
@@ -39,16 +40,16 @@ class Game:
 
         self.tiles = Tiles()
         self.map = Map(self.tiles)
+        self.settings = Settings()
 
         sx, sy = self.map.player_starting_pos()
-        print(sx, sy)
         self.player = Player(sx, sy)
         self.enemy = Enemy()
-        self.battle = Battle(self.player, self.enemy)
+        self.battle = Battle(self.player, self.enemy, self.settings)
         self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
     
     def run(self):
-        print("Witam w grze Monut Carlos!\nPrzyciskami W, S, A, D lub strzałkami poruszasz się postacią.\nCelem gry jest walka z przeciwnikami znajdującymi sie w krzakach!\nWalka odbywa się w systemie turowym. Aby wybrać atak gracza, nalezy wcisnąć odpowiadający danemu ruchowi przycisk 1-4. Po każdej wiadomości wyświetlanej na ekrani, należy wcisnąć ENTER, aby kontynuować!!!\nPowodzenia, miłego grania")
+        # print("Witam w grze Monut Carlos!\nPrzyciskami W, S, A, D lub strzałkami poruszasz się postacią.\nCelem gry jest walka z przeciwnikami znajdującymi sie w krzakach!\nWalka odbywa się w systemie turowym. Aby wybrać atak gracza, nalezy wcisnąć odpowiadający danemu ruchowi przycisk 1-4. Po każdej wiadomości wyświetlanej na ekrani, należy wcisnąć ENTER, aby kontynuować!!!\nPowodzenia, miłego grania")
 
         while self.running:
             self.mouse_clicked = False
@@ -116,7 +117,7 @@ class Game:
         elif self.game_state == GameState.GAME:
             if self.player.in_battle:
                 self.enemy = Enemy()
-                self.battle = Battle(self.player, self.enemy)
+                self.battle = Battle(self.player, self.enemy, self.settings)
                 self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
                 self.game_state = GameState.BATTLE
             self.update()

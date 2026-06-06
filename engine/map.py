@@ -45,12 +45,6 @@ class Tiles:
                 tile = pygame.transform.scale(img, self.render_size)
                 self.tiles[name] = tile
 
-                # tile = pygame.Surface(self.texture_size)
-                # tile.blit(img, (0, 0), (0, 0, *self.render_size))
-                # tile = pygame.transform.scale(tile, self.render_size)
-                #
-                # self.tiles[name] = tile
-
     def get_size(self):
         return self.render_size
 
@@ -148,7 +142,6 @@ class Map:
     def player_starting_pos(self):
         for dy in range(17, 27):
             for dx in range(16, 26):
-                print(self.map[dx, dy])
                 if (self.map[dx, dy] == TileType.GRASS or self.map[dx, dy] == TileType.BUSH) and (self.map[dx, dy-1] == TileType.GRASS or self.map[dx, dy-1] == TileType.BUSH) and (self.map[dx + 1, dy] == TileType.GRASS or self.map[dx + 1, dy] == TileType.BUSH):
                     return dx, dy
 
@@ -198,8 +191,3 @@ class Map:
                     # screen.blit(tile, (x*i, y*j))
                     screen.blit(tile, (screen_x, screen_y))
                     # self.image.blit(tile, (x*i, y*j))
-
-
-if __name__ == "__main__":
-    tiles = Tiles()
-    print(tiles.get_tiles())

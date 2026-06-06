@@ -24,9 +24,10 @@ class Node:
         return len(self.untried_moves) == 0
 
 class MonteCarloAI:
-    def __init__(self, iterations=1000, exploration=1.4):
+    def __init__(self, state, iterations=1000, exploration=1.4):
         self.iterations = iterations
         self.exploration = exploration
+        self.root_state = state
 
     def uct(self, node):
         if node.visits == 0:
@@ -121,13 +122,14 @@ class MonteCarloAI:
             node.wins += result
             node = node.parent
 
-    def mcts(self, root_state):
-        if root_state.player_turn:
-            moves = [m for m in root_state.player_moves if m.uses > 0]
+    #NOTE: MCTS -> renamed to choose_move()
+    def mcts(self):
+        if self.root_state.player_turn:
+            moves = [m for m in self.root_state.player_moves if m.uses > 0]
         else:
-            moves = [m for m in root_state.enemy_moves if m.uses > 0]
+            moves = [m for m in self.root_state.enemy_moves if m.uses > 0]
 
-        root  = Node(root_state, available_moves=moves)
+        root  = Node(self.root_state, available_moves=moves)
 
         for _ in range(self.iterations):
             node = self.select(root)
