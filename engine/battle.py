@@ -1,8 +1,6 @@
-from engine.player import Player
-from engine.enemy import Enemy, State
-from utils.move import Move
-from ai.simulation import RandomChoice, MonteCarloRolloutAI
-from collections import deque
+from engine.enemy import State
+from ai.simulation import CurrentBattleState, RandomChoice, MonteCarloRolloutAI
+from ai.monte_carlo import MonteCarloAI
 import pygame
 from enum import Enum
 
@@ -52,8 +50,13 @@ class Battle:
         # enemyAI = RandomChoice(self.enemy.moves)
         # self.enemyMove = enemyAI.chooseMove()
 
-        enemyAI = MonteCarloRolloutAI()
-        self.enemyMove = enemyAI.choose_move(self.player, self.enemy)
+        # enemyAI = MonteCarloRolloutAI()
+        # self.enemyMove = enemyAI.choose_move(self.player, self.enemy)
+
+        currState = CurrentBattleState(self.player.health, self.enemy.health, self.player.moves, self.enemy.moves, False)
+
+        enemyAI = MonteCarloAI()
+        self.enemyMove = enemyAI.mcts(currState)
 
         self.enemy.state = State.ATTACK
         self.enemy.animation_done = False
