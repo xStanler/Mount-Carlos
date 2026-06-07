@@ -69,7 +69,7 @@ Battle features:
 
 ### 🤖 AI
 
-Informations in sction at the end of this document.
+Information can be found in the Artificial Intelligence section at the end of this document.
 
 ---
 
@@ -189,14 +189,45 @@ python main.py
 
 ## Screenshots
 
-<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/MainMenu.png" width="300">
-<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Settings.png?raw=true" width="300">
-<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/HowToPlay.png?raw=true" width="300">
-<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Gameplay.png?raw=true" width="300">
-<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Battle.png?raw=true" width="300">
+<table>
+<tr>
+<td align="center">
+<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/MainMenu.png?raw=true" width="400">
+<br>
+<b>Main Menu</b>
+</td>
 
+<td align="center">
+<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Settings.png?raw=true" width="400">
+<br>
+<b>Settings</b>
+</td>
+</tr>
 
+<tr>
+<td align="center">
+<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/HowToPlay.png?raw=true" width="400">
+<br>
+<b>How To Play</b>
+</td>
 
+<td align="center">
+<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Gameplay.png?raw=true" width="400">
+<br>
+<b>Gameplay</b>
+</td>
+</tr>
+
+<tr>
+<td align="center">
+<img src="https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Battle.png?raw=true" width="400">
+<br>
+<b>Battle</b>
+</td>
+
+<td></td>
+</tr>
+</table>
 ---
 
 ## Author
@@ -215,7 +246,7 @@ This implementation was primarily used for testing and balancing the combat syst
 
 ---
 
-## Monte Carlo Tree Search (MCTS) (difficulty: medium)
+## Monte Carlo Rollout AI (difficulty: medium)
 
 The advanced AI uses a Monte Carlo algorithm to determine the most promising move.
 
@@ -227,7 +258,7 @@ Unlike a simple rule-based opponent, the enemy attempts to predict the future ou
 
 The advanced AI uses a Monte Carlo Tree Search algorithm to determine the most promising move.
 
-The key difference between this and previous algorithm is, this one remembers moves and only expands the decision tree. It not only saves time, but it allows for us to get whole battle log of moves.
+The key difference between this and the previous algorithm is that this version stores previously explored states inside a search tree. Instead of evaluating every situation from scratch, it continuously expands and reuses the tree, allowing the AI to make stronger decisions while reducing redundant computations.
 
 ### How it works
 
