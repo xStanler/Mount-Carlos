@@ -189,7 +189,7 @@ python main.py
 
 ## Screenshots
 
-![Main Menu](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/MainMenu.png?raw=true =200)
+![Main Menu](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/MainMenu.png =200)
 
 
 ![Settings](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Settings.png?raw=true =200)
