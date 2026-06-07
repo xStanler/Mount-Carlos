@@ -129,6 +129,8 @@ MountCarlos/
 ├── utils/
 │   └── move.py
 │
+├── screenshots/
+│
 └── main.py
 ```
 
