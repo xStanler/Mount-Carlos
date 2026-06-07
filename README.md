@@ -99,11 +99,19 @@ Informations in sction at the end of this document.
 ```text
 MountCarlos/
 │
+├── ai/
+│   ├── simulation.py
+│   └── monte_carlo.py
+│
 ├── assets/
 │   ├── Player/
 │   ├── Enemies/
 │   ├── Tiles/
 │   └── Maps/
+│
+├── core/
+│   ├── game.py
+│   └── settings.py
 │
 ├── engine/
 │   ├── player.py
@@ -117,9 +125,8 @@ MountCarlos/
 │   ├── menus.py
 │   └── how_to_play.py
 │
-├── ai/
-│   ├── simulation.py
-│   └── monte_carlo.py
+├── utils/
+│   └── move.py
 │
 └── main.py
 ```
@@ -131,7 +138,7 @@ MountCarlos/
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/xStanler/Mount-Carlos?tab=readme-ov-file
 cd MountCarlos
 ```
 
