@@ -7,6 +7,7 @@ from engine.battle import Battle, BattleState
 from ui.menus import MainMenu, PauseMenu
 from ui.battle_ui import BattleUI
 from ui.how_to_play import HowToPlay
+from ui.end import EndScreen
 import pygame
 from pygame.locals import *
 from pathlib import Path
@@ -20,6 +21,7 @@ class GameState(Enum):
     PAUSE = 4
     SETTINGS = 5
     HOWTOPLAY = 6
+    END = 7
 
 class Game:
     def __init__(self):
@@ -45,23 +47,22 @@ class Game:
         self.map = Map(self.tiles)
         self.settings = Settings(self.screen)
         self.howToPlay = HowToPlay(self.screen)
+        self.endScreen = EndScreen(self.screen)
 
         sx, sy = self.map.player_starting_pos()
         self.player = Player(sx, sy)
         self.enemy = Enemy()
         self.battle = Battle(self.player, self.enemy, self.settings)
         self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
+        self.numOfBattles = 0
     
     def run(self):
-        # print("Witam w grze Monut Carlos!\nPrzyciskami W, S, A, D lub strzałkami poruszasz się postacią.\nCelem gry jest walka z przeciwnikami znajdującymi sie w krzakach!\nWalka odbywa się w systemie turowym. Aby wybrać atak gracza, nalezy wcisnąć odpowiadający danemu ruchowi przycisk 1-4. Po każdej wiadomości wyświetlanej na ekrani, należy wcisnąć ENTER, aby kontynuować!!!\nPowodzenia, miłego grania")
 
         while self.running:
             self.mouse_clicked = False
             self.mouse_pos = pygame.mouse.get_pos()
             self.handle_events()
             self.handle_states()
-            # self.update()
-            # self.render()
 
             pygame.display.flip()
             self.clock.tick(60)
@@ -82,8 +83,6 @@ class Game:
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.mouse_clicked = True
-            # if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            #     self.game_state = GameState.PAUSE
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
@@ -94,7 +93,6 @@ class Game:
                     self.player.in_battle = False
 
                 self.battle.handle_event(event)
-            # self.battle.handle_event(event)
             
 
     def handle_states(self):
@@ -140,9 +138,9 @@ class Game:
 
             if self.battle.finished:
                 self.game_state = GameState.GAME
-                self.player.in_battle = False
-                if self.player.health <= 0:
-                    self.running = False
+                self.numOfBattles += 1
+                if self.player.health <= 0 or self.numOfBattles == 5:
+                    self.game_state = GameState.END
                 self.player.restore_after_battle()
         elif self.game_state == GameState.SETTINGS:
             settings_changed = self.settings.update(self.mouse_pos, self.mouse_clicked)
@@ -155,6 +153,13 @@ class Game:
             if isBack == "BACK":
                 self.game_state = GameState.MENU
             self.howToPlay.render(self.screen)
+        elif self.game_state == GameState.END:
+            finished = self.endScreen.update(self.mouse_pos, self.mouse_clicked)
+
+            if finished == "QUIT":
+                self.running = False
+
+            self.endScreen.render(self.screen)
 
     def update(self):
         self.player.update(self.map)
@@ -166,4 +171,3 @@ class Game:
         self.screen.fill((192, 203, 220))
         self.map.render(self.screen, self.camera)
         self.player.render(self.screen, self.camera)
-        # pygame.display.flip()
