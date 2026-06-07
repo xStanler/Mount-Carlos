@@ -189,7 +189,7 @@ python main.py
 
 ## Screenshots
 
-Add screenshots here later.
+![Main Menu](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/MainMenu.png?raw=true)
 
 ---
 
