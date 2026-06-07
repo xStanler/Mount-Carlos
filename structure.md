@@ -1,37 +1,33 @@
-Monte-Carlos/
+MountCarlos/
+│
+├── ai/
+│   ├── simulation.py
+│   └── monte_carlo.py
+│
+├── assets/
+│   ├── Player/
+│   ├── Enemies/
+│   ├── Tiles/
+│   └── Maps/
 │
 ├── core/
 │   ├── game.py
-│   ├── settings.py
+│   └── settings.py
 │
 ├── engine/
-│   ├── entity.py
 │   ├── player.py
+│   ├── enemy.py
 │   ├── map.py
 │   ├── battle.py
-│
-├── ai/
-│   ├── monte_carlo.py
-│   ├── simulation.py
-│
-├── utils/
-│   ├── move.py
-│
-├── assets/
-│   ├── sprites/
-│       ├── Enemies/
-│       │   ├── Dragon/
-│       │   ├── Fire/
-│       │   ├── Grass/
-│       │   ├── Mythic/
-│       │   ├── Water/
-│       │   
-│       ├── Maps/
-│       ├── Player/
-│       ├── Tiles/
+│   └── camera.py
 │
 ├── ui/
 │   ├── battle_ui.py
+│   ├── end.py
 │   ├── menus.py
+│   └── how_to_play.py
+│
+├── utils/
+│   └── move.py
 │
 └── main.py

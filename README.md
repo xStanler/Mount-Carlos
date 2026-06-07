@@ -122,6 +122,7 @@ MountCarlos/
 │
 ├── ui/
 │   ├── battle_ui.py
+│   ├── end.py
 │   ├── menus.py
 │   └── how_to_play.py
 │
@@ -198,7 +199,7 @@ Created by Stanisław Chmielewski.
 
 Mount Carlos contains two enemy AI systems:
 
-## Random AI
+## Random AI (difficulty: easy)
 
 The basic AI chooses one of the available moves randomly.
 
@@ -206,11 +207,19 @@ This implementation was primarily used for testing and balancing the combat syst
 
 ---
 
-## Monte Carlo Tree Search (MCTS)
+## Monte Carlo Tree Search (MCTS) (difficulty: medium)
+
+The advanced AI uses a Monte Carlo algorithm to determine the most promising move.
+
+Unlike a simple rule-based opponent, the enemy attempts to predict the future outcome of a battle by simulating many possible combat sequences before making a decision.
+
+---
+
+## Monte Carlo Tree Search (MCTS) (difficulty: hard)
 
 The advanced AI uses a Monte Carlo Tree Search algorithm to determine the most promising move.
 
-Unlike a simple rule-based opponent, the enemy attempts to predict the future outcome of a battle by simulating many possible combat sequences before making a decision.
+The key difference between this and previous algorithm is, this one remembers moves and only expands the decision tree. It not only saves time, but it allows for us to get whole battle log of moves.
 
 ### How it works
 
