@@ -69,14 +69,7 @@ Battle features:
 
 ### 🤖 AI
 
-Current implementation:
-
-- Random move selection
-
-Planned:
-
-- Monte Carlo Tree Search (MCTS)
-- Smarter enemy decision making
+Informations in sction at the end of this document.
 
 ---
 
