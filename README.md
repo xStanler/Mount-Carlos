@@ -1,3 +1,199 @@
+# 🏔️ Mount Carlos
+
+Mount Carlos is a 2D pixel-art RPG written in Python using Pygame.
+
+The player takes control of Carlos, explores a procedurally generated world, discovers enemies hidden in bushes, and fights them in turn-based battles.
+
+The primary objective of this project was not only to create a turn-based RPG game, but also to explore and implement Monte Carlo based decision-making algorithms in a real-time interactive environment.
+
+---
+
+## Features
+
+### 🌍 Exploration
+
+- Large tile-based map
+- Procedural environment generation using noise maps
+- Trees, flowers, bushes and walls
+- Camera following the player
+- Collision detection system
+
+### 🧍 Player
+
+- Animated character sprite
+- Walking and idle animations
+- Four unique abilities:
+  - Healing Axe
+  - Heal
+  - Quick Attack
+  - Strong Attack
+
+### 👾 Enemies
+
+Five enemy classes:
+
+- Fire
+- Water
+- Grass
+- Dragon
+- Mythic
+
+Each enemy:
+
+- Has unique sprites
+- Has unique attacks
+- Receives random additional moves
+- Has randomized HP
+
+### ⚔️ Battle System
+
+Turn-based combat system.
+
+Players choose abilities using keys:
+
+| Key | Action |
+|-------|-------|
+| 1 | Move 1 |
+| 2 | Move 2 |
+| 3 | Move 3 |
+| 4 | Move 4 |
+| Enter | Continue dialogue |
+
+Battle features:
+
+- Health bars
+- Battle messages
+- Attack animations
+- Healing mechanics
+- Limited move uses
+
+### 🤖 AI
+
+Current implementation:
+
+- Random move selection
+
+Planned:
+
+- Monte Carlo Tree Search (MCTS)
+- Smarter enemy decision making
+
+---
+
+## Controls
+
+### Exploration
+
+| Key | Action |
+|-------|-------|
+| W | Move Up |
+| A | Move Left |
+| S | Move Down |
+| D | Move Right |
+| Arrow Keys | Alternative movement |
+
+### Battles
+
+| Key | Action |
+|-------|-------|
+| 1-4 | Select move |
+| Enter | Continue |
+
+---
+
+## Project Structure
+
+```text
+MountCarlos/
+│
+├── assets/
+│   ├── Player/
+│   ├── Enemies/
+│   ├── Tiles/
+│   └── Maps/
+│
+├── engine/
+│   ├── player.py
+│   ├── enemy.py
+│   ├── map.py
+│   ├── battle.py
+│   └── camera.py
+│
+├── ui/
+│   ├── battle_ui.py
+│   ├── menus.py
+│   └── how_to_play.py
+│
+├── ai/
+│   ├── simulation.py
+│   └── monte_carlo.py
+│
+└── main.py
+```
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+cd MountCarlos
+```
+
+Create a virtual environment:
+
+```bash
+python3 -m venv .venv
+```
+
+Activate it:
+
+### Linux / macOS
+
+```bash
+source .venv/bin/activate
+```
+
+### Windows
+
+```cmd
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
+pip install pygame numpy
+```
+
+Run the game:
+
+```bash
+python main.py
+```
+
+---
+
+## Technologies
+
+- Python 3.12+
+- Pygame
+- NumPy
+
+---
+
+## Screenshots
+
+Add screenshots here later.
+
+---
+
+## Author
+
+Created by Stanisław Chmielewski.
+
 # 🤖 Artificial Intelligence
 
 Mount Carlos contains two enemy AI systems:
