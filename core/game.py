@@ -6,6 +6,7 @@ from engine.camera import Camera
 from engine.battle import Battle, BattleState
 from ui.menus import MainMenu, PauseMenu
 from ui.battle_ui import BattleUI
+from ui.how_to_play import HowToPlay
 import pygame
 from pygame.locals import *
 from pathlib import Path
@@ -18,6 +19,7 @@ class GameState(Enum):
     BATTLE = 3
     PAUSE = 4
     SETTINGS = 5
+    HOWTOPLAY = 6
 
 class Game:
     def __init__(self):
@@ -42,6 +44,7 @@ class Game:
         self.tiles = Tiles()
         self.map = Map(self.tiles)
         self.settings = Settings(self.screen)
+        self.howToPlay = HowToPlay(self.screen)
 
         sx, sy = self.map.player_starting_pos()
         self.player = Player(sx, sy)
@@ -100,8 +103,10 @@ class Game:
 
             if menu_action == "START":
                 self.game_state = GameState.GAME
-            if menu_action == "SETTINGS":
+            elif menu_action == "SETTINGS":
                 self.game_state = GameState.SETTINGS
+            elif menu_action == "HOWTOPLAY":
+                self.game_state = GameState.HOWTOPLAY
             elif menu_action == "QUIT":
                 self.running = False
 
@@ -144,6 +149,12 @@ class Game:
             if settings_changed:
                 self.game_state = GameState.MENU
             self.settings.render(self.screen)
+        elif self.game_state == GameState.HOWTOPLAY:
+            isBack = self.howToPlay.update(self.mouse_pos, self.mouse_clicked)
+
+            if isBack == "BACK":
+                self.game_state = GameState.MENU
+            self.howToPlay.render(self.screen)
 
     def update(self):
         self.player.update(self.map)
