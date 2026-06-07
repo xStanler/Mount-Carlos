@@ -189,10 +189,10 @@ python main.py
 
 ## Screenshots
 
-![Main Menu](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/MainMenu.png =200)
+![Main Menu](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/MainMenu.png =300x)
 
 
-![Settings](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Settings.png?raw=true =200)
+![Settings](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Settings.png?raw=true =300x)
 
 
 ![How to play](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/HowToPlay.png?raw=true =200)
