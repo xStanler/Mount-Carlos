@@ -190,10 +190,20 @@ python main.py
 ## Screenshots
 
 ![Main Menu](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/MainMenu.png?raw=true =200)
+
+
 ![Settings](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Settings.png?raw=true =200)
+
+
 ![How to play](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/HowToPlay.png?raw=true =200)
+
+
 ![Gameplay](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Gameplay.png?raw=true =200)
+
+
 ![Battle](https://github.com/xStanler/Mount-Carlos/blob/master/screenshots/Battle.png?raw=true =200)
+
+
 
 ---
 
