@@ -138,7 +138,7 @@ MountCarlos/
 Clone the repository:
 
 ```bash
-git clone https://github.com/xStanler/Mount-Carlos?tab=readme-ov-file
+git clone https://github.com/xStanler/Mount-Carlos
 cd MountCarlos
 ```
 
