@@ -1,3 +1,4 @@
+from core.settings import Settings
 from engine.map import Map, Tiles
 from engine.player import Player
 from engine.enemy import Enemy
@@ -5,17 +6,20 @@ from engine.camera import Camera
 from engine.battle import Battle, BattleState
 from ui.menus import MainMenu, PauseMenu
 from ui.battle_ui import BattleUI
+from ui.how_to_play import HowToPlay
 import pygame
 from pygame.locals import *
 from pathlib import Path
 from enum import Enum
 
 class GameState(Enum):
-    MENU = 0,
-    LOADING = 1,
-    GAME = 2,
-    BATTLE = 3,
+    MENU = 0
+    LOADING = 1
+    GAME = 2
+    BATTLE = 3
     PAUSE = 4
+    SETTINGS = 5
+    HOWTOPLAY = 6
 
 class Game:
     def __init__(self):
@@ -39,16 +43,17 @@ class Game:
 
         self.tiles = Tiles()
         self.map = Map(self.tiles)
+        self.settings = Settings(self.screen)
+        self.howToPlay = HowToPlay(self.screen)
 
         sx, sy = self.map.player_starting_pos()
-        print(sx, sy)
         self.player = Player(sx, sy)
         self.enemy = Enemy()
-        self.battle = Battle(self.player, self.enemy)
+        self.battle = Battle(self.player, self.enemy, self.settings)
         self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
     
     def run(self):
-        print("Witam w grze Monut Carlos!\nPrzyciskami W, S, A, D lub strzałkami poruszasz się postacią.\nCelem gry jest walka z przeciwnikami znajdującymi sie w krzakach!\nWalka odbywa się w systemie turowym. Aby wybrać atak gracza, nalezy wcisnąć odpowiadający danemu ruchowi przycisk 1-4. Po każdej wiadomości wyświetlanej na ekrani, należy wcisnąć ENTER, aby kontynuować!!!\nPowodzenia, miłego grania")
+        # print("Witam w grze Monut Carlos!\nPrzyciskami W, S, A, D lub strzałkami poruszasz się postacią.\nCelem gry jest walka z przeciwnikami znajdującymi sie w krzakach!\nWalka odbywa się w systemie turowym. Aby wybrać atak gracza, nalezy wcisnąć odpowiadający danemu ruchowi przycisk 1-4. Po każdej wiadomości wyświetlanej na ekrani, należy wcisnąć ENTER, aby kontynuować!!!\nPowodzenia, miłego grania")
 
         while self.running:
             self.mouse_clicked = False
@@ -98,6 +103,10 @@ class Game:
 
             if menu_action == "START":
                 self.game_state = GameState.GAME
+            elif menu_action == "SETTINGS":
+                self.game_state = GameState.SETTINGS
+            elif menu_action == "HOWTOPLAY":
+                self.game_state = GameState.HOWTOPLAY
             elif menu_action == "QUIT":
                 self.running = False
 
@@ -116,7 +125,7 @@ class Game:
         elif self.game_state == GameState.GAME:
             if self.player.in_battle:
                 self.enemy = Enemy()
-                self.battle = Battle(self.player, self.enemy)
+                self.battle = Battle(self.player, self.enemy, self.settings)
                 self.battleUI = BattleUI(self.screen, self.player, self.enemy, self.battle)
                 self.game_state = GameState.BATTLE
             self.update()
@@ -135,6 +144,17 @@ class Game:
                 if self.player.health <= 0:
                     self.running = False
                 self.player.restore_after_battle()
+        elif self.game_state == GameState.SETTINGS:
+            settings_changed = self.settings.update(self.mouse_pos, self.mouse_clicked)
+            if settings_changed:
+                self.game_state = GameState.MENU
+            self.settings.render(self.screen)
+        elif self.game_state == GameState.HOWTOPLAY:
+            isBack = self.howToPlay.update(self.mouse_pos, self.mouse_clicked)
+
+            if isBack == "BACK":
+                self.game_state = GameState.MENU
+            self.howToPlay.render(self.screen)
 
     def update(self):
         self.player.update(self.map)

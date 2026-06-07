@@ -12,9 +12,10 @@ class BattleState(Enum):
     FINISHED = 4
 
 class Battle:
-    def __init__(self, player, enemy):
+    def __init__(self, player, enemy, setting):
         self.player = player
         self.enemy = enemy
+        self.setting = setting
         self.enemyMove = self.enemy.moves[0]
 
         self.message_queue = None
@@ -47,16 +48,8 @@ class Battle:
         self.state = BattleState.PLAYER_MESSAGE
 
     def enemy_move(self):
-        # enemyAI = RandomChoice(self.enemy.moves)
-        # self.enemyMove = enemyAI.chooseMove()
-
-        # enemyAI = MonteCarloRolloutAI()
-        # self.enemyMove = enemyAI.choose_move(self.player, self.enemy)
-
-        currState = CurrentBattleState(self.player.health, self.enemy.health, self.player.moves, self.enemy.moves, False)
-
-        enemyAI = MonteCarloAI()
-        self.enemyMove = enemyAI.mcts(currState)
+        enemyAI = self.setting.get_engine(self.player, self.enemy) 
+        self.enemyMove = enemyAI.choose_move()
 
         self.enemy.state = State.ATTACK
         self.enemy.animation_done = False
