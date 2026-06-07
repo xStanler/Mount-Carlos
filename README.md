@@ -228,7 +228,6 @@ python main.py
 <td></td>
 </tr>
 </table>
----
 
 ## Author
 
