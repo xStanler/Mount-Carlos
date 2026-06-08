@@ -139,6 +139,7 @@ class Game:
             if self.battle.finished:
                 self.game_state = GameState.GAME
                 self.numOfBattles += 1
+                self.player.in_battle = False
                 if self.player.health <= 0 or self.numOfBattles == 5:
                     self.game_state = GameState.END
                 self.player.restore_after_battle()
