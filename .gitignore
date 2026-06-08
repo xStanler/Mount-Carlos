@@ -1,5 +1,9 @@
 # Don't know if to include assets
 assets/.DS_Store
+main.spec
+MountCarlos-macOS.zip
+dist/
+build/
 TODO.md
 # Byte-compiled / optimized / DLL files
 __pycache__/
